@@ -7,15 +7,24 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
     - targets: ["localhost:9090"]
-  - job_name: "node"
+  - job_name: "GOFNB DEV APP"
     static_configs:
-    - targets: ["192.168.1.184:9100"]
-  - job_name: "wordpress"
+    - targets: ["192.168.101.24:9100"]
+  - job_name: "GOFNB DEV DB"
     static_configs:
-    - targets: ["192.168.1.200:9100"]
-  - job_name: "mysql"
+    - targets: ["192.168.101.100:9100"]
+  - job_name: "GOFNB STAG APP"
     static_configs:
-    - targets: ["192.168.1.200:9104"]
+    - targets: ["192.168.102.63:9100"]
+  - job_name: "GOFNB STAG DB"
+    static_configs:
+    - targets: ["192.168.102.40:9100"]
+  - job_name: "GOFNB PROD APP"
+    static_configs:
+    - targets: ["192.168.102.73:9100"]
+  - job_name: "GOFNB PROD DB"
+    static_configs:
+    - targets: ["192.168.102.248:9100"]
 rule_files:
   - ./alert_rules.yml
 alerting:
@@ -26,4 +35,4 @@ remote_write:
   - url: "localhost:3000"
     basic_auth:
       username: "admin"
-      password: "VienDong@123"
+      password: "60A@truongson"
