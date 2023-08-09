@@ -1,0 +1,27 @@
+[
+    {
+        "labels": {
+            "instance": "SOURCEVN-DEV-APP"
+        },"targets": ["192.168.101.23:9182"]
+    },
+    {
+        "labels": {
+            "instance": "SOURCEVN-STAG-APP"
+        },"targets": ["192.168.102.226:9182"]
+    },
+    {
+        "labels": {
+            "instance": "SOURCEVN-STAG-DB"
+        },"targets": ["192.168.102.144:9182"]
+    },
+    {
+        "labels": {
+            "instance": "SOURCEVN-PROD-APP"
+        },"targets": ["192.168.102.55:9182"]
+    },
+    {
+        "labels": {
+            "instance": "SOURCEVN-PROD-DB"
+        },"targets": ["192.168.102.121:9182"]
+    }
+]

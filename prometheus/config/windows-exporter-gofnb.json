@@ -1,0 +1,37 @@
+[
+    {
+        "labels": {
+            "instance": "GOFNB DEV APP"
+        },"targets": ["192.168.101.24:9182"]
+    },
+    {
+        "labels": {
+            "instance": "GOFNB DEV DB"
+        },"targets": ["192.168.101.100:9182"]
+    },
+    {
+        "labels": {
+            "instance": "GOFNB STAG APP"
+        },"targets": ["192.168.102.63:9182"]
+    },
+    {
+        "labels": {
+            "instance": "GOFNB STAG DB"
+        },"targets": ["192.168.102.40:9182"]
+    },
+    {
+        "labels": {
+            "instance": "GOFNB PROD APP"
+        },"targets": ["192.168.102.73:9182"]
+    },
+    {
+        "labels": {
+            "instance": "GOFNB PROD DB"
+        },"targets": ["192.168.102.248:9182"]
+    },
+    {
+        "labels": {
+            "instance": "GOFNB AGENT 5"
+        },"targets": ["192.168.101.35:9182"]
+    }
+]
