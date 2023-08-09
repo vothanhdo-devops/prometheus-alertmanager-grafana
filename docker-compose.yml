@@ -1,7 +1,6 @@
 version: '3.3'
 services:
   prometheus:
-   # Run Container as root user
     user: root
     image: prom/prometheus:latest
     container_name: prometheus
@@ -9,12 +8,10 @@ services:
     restart: always
     ports:
       - '9090:9090'
-   # Mount config file from local to Container
     volumes:
       - './prometheus/config:/config'
       - './prometheus/config/alert_rules.yml:/etc/prometheus/alert_rules.yml'
       - './prometheus/data/prometheus:/prometheus/data'
-   # Container start CMD to load config file   
     command:
       - '--config.file=/config/prometheus.yml'
       - '--web.enable-lifecycle'
@@ -39,25 +36,19 @@ services:
     networks:
       - prometheus
   alertmanager:
-    # Run Container as root user
-    user: root
-    image: prom/alertmanager:latest
+    image: prom/alertmanager:v0.19.0
     container_name: alertmanager
-    hostname: localhost
-    restart: always
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    restart: unless-stopped
     ports:
       - '9093:9093'
-   # Mount config file from local to Container  
-    volumes:
-      - './prometheus/config:/config'
-      - './prometheus/data/alertmanager:/alertmanager/data'
-   # Container start CMD to load config file   
-    command:
-      - '--config.file=/config/alertmanager.yml'
     networks:
       - prometheus
   grafana:
-     # Run Container as root user
     user: root
     image: grafana/grafana:latest
     container_name: grafana
@@ -65,16 +56,33 @@ services:
     restart: always
     ports:
       - '3000:3000'
-   # Mount config file from local to Container     
+    environment:
+      - "GF_SECURITY_ADMIN_USER=admin"
+      - "GF_SECURITY_ADMIN_PASSWORD=60A@truongson"
     volumes:
-      - './grafana/config/grafana_datasources.yml:/etc/grafana/provisioning/datasources/all.yaml'       
+      - './grafana/config/grafana_datasources.yml:/etc/grafana/provisioning/datasources/all.yaml'
       - './grafana/config/grafana.ini:/etc/grafana/grafana.ini'
       - './grafana/data/grafana:/var/lib/grafana'
     networks:
       - prometheus
-  
+  loki:
+    image: grafana/loki:2.8.3
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/loki-config.yaml
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - prometheus
+
+  promtail:
+    image: grafana/promtail:2.8.3
+    volumes:
+      - /ovar/log:/var/log
+      - ./loki/promtail-config.yml:/etc/promtail/promtail-config.yml
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - prometheus
 networks:
   prometheus:
     driver: bridge
-     
-
