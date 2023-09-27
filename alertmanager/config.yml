@@ -9,8 +9,8 @@ route:
 receivers:
 - name: 'slack-notifications'
   slack_configs:
-  - api_url: 'https://hooks.slack.com/services/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'
-    channel: '#monitoring'
+  - api_url: 'https://hooks.slack.com/services/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'
+    channel: '#alert-mediastep'
     send_resolved: true
 
     icon_url: https://avatars3.githubusercontent.com/u/3380462
@@ -45,4 +45,3 @@ inhibit_rules:
       severity: 'critical'
     target_match:
       severity: 'warning'
-    equal: ['alertname','dev','instance']
