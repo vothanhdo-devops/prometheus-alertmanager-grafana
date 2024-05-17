@@ -17,22 +17,20 @@ services:
       - '--web.enable-lifecycle'
     networks:
       - prometheus
-  node-exporter:
-    image: prom/node-exporter:latest
-    container_name: node-exporter
-    hostname: localhost
-    restart: unless-stopped
-    volumes:
-      - ./proc:/host/proc:ro
-      - ./sys:/host/sys:ro
-      - ./:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.rootfs=/rootfs'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+  blackbox_exporter:
+    image: prom/blackbox-exporter
+    restart: always
+    tty: true
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-backbox.rule=Host(`blackbox_exporter`)
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}-backbox.loadbalancer.server.port=9115
     ports:
-      - '9100:9100'
+      - 9115:9115
+    dns: 8.8.8.8
+    command: --config.file=/etc/blackbox/blackbox.yml
+    volumes:
+      - ./blackbox/:/etc/blackbox/
     networks:
       - prometheus
   alertmanager:
@@ -63,24 +61,6 @@ services:
       - './grafana/config/grafana_datasources.yml:/etc/grafana/provisioning/datasources/all.yaml'
       - './grafana/config/grafana.ini:/etc/grafana/grafana.ini'
       - './grafana/data/grafana:/var/lib/grafana'
-    networks:
-      - prometheus
-  loki:
-    image: grafana/loki:2.8.3
-    volumes:
-      - ./loki/loki-config.yaml:/etc/loki/loki-config.yaml
-    ports:
-      - "3100:3100"
-    command: -config.file=/etc/loki/local-config.yaml
-    networks:
-      - prometheus
-
-  promtail:
-    image: grafana/promtail:2.8.3
-    volumes:
-      - /ovar/log:/var/log
-      - ./loki/promtail-config.yml:/etc/promtail/promtail-config.yml
-    command: -config.file=/etc/promtail/config.yml
     networks:
       - prometheus
 networks:

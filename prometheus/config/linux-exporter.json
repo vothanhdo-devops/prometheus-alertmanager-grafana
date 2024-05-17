@@ -1,0 +1,37 @@
+[
+    {
+        "labels": {
+            "instance": "GOFNB-DEV-RABBITMQ"
+        },"targets": ["192.168.101.3:9100"]
+    },
+    {
+        "labels": {
+            "instance": "GOFNB-STAG-RABBITMQ"
+        },"targets": ["192.168.112.33:9100"]
+    },
+    {
+        "labels": {
+            "instance": "GOFNB-PROD-RABBITMQ"
+        },"targets": ["192.168.112.20:9100"]
+    },
+    {
+        "labels": {
+            "instance": "GOFNB-AGENT-UBUNTU-1"
+        },"targets": ["192.168.101.55:9100"]
+    },
+    {
+        "labels": {
+            "instance": "GOFNB-AGENT-UBUNTU-2"
+        },"targets": ["192.168.101.44:9100"]
+    },
+    {
+        "labels": {
+            "instance": "NGINX-PROXY-VN"
+        },"targets": ["192.168.101.45:9100"]
+    },
+    {
+        "labels": {
+            "instance": "NGINX-PROXY-PROD"
+        },"targets": ["192.168.102.74:9100"]
+    }
+]

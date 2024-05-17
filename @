@@ -1,0 +1,63 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+  external_labels:
+      monitor: 'Monitoring'
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'GOFNB'
+    scrape_interval: 5s
+    file_sd_configs:
+      - files:
+        - ./windows-exporter-gofnb.json
+  - job_name: 'SOURCE-VN'
+    scrape_interval: 5s
+    file_sd_configs:
+      - files:
+        - ./windows-exporter-source-vn.json
+  - job_name: 'LINUX'
+    scrape_interval: 5s
+    file_sd_configs:
+      - files:
+        - ./linux-exporter.json      
+  - job_name: 'blackbox'
+    scrape_interval: 10s
+    metrics_path: /probe
+    static_configs:
+    - targets:
+      - https://fnb.gosell.vn/login
+      - https://fnb.pos.gosell.vn/login
+      - https://admin.gofnb.biz/login
+      - https://pos.gofnb.biz/login
+      - https://api.fnb.gosell.vn/swagger/index.html
+      - https://api.fnb.pos.gosell.vn/swagger/index.html
+      - https://api.fnb.posapp.gosell.vn/swagger/index.html
+      - https://fnb-jobs.gosell.vn/dashboard
+      - https://sourcevietnam.com/
+      - https://sourcevietnam.com/manufactures
+      - https://portal.sourcevietnam.com/
+      - https://commercefinder.com/
+      - https://portal.commercefinder.com/
+   params:
+    module: [http_2xx]
+   relabel_configs:
+    - source_labels: [ __address__ ]
+      target_label: __param_target
+    - source_labels: [ __param_target ]
+      target_label: instance
+    - target_label: __address__
+      replacement: "blackbox_exporter:9115"
+rule_files:
+  - ./alert_rules.yml
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: ['alertmanager:9093']
+remote_write:
+  - url: "localhost:3000"
+    basic_auth:
+      username: "admin"
+      password: "60A@truongson"

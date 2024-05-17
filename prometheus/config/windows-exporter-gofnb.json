@@ -6,8 +6,8 @@
     },
     {
         "labels": {
-            "instance": "GOFNB DEV DB"
-        },"targets": ["192.168.101.100:9182"]
+            "instance": "GOFNB DEV API"
+        },"targets": ["192.168.101.88:9182"]
     },
     {
         "labels": {
@@ -16,18 +16,18 @@
     },
     {
         "labels": {
-            "instance": "GOFNB STAG DB"
-        },"targets": ["192.168.102.40:9182"]
+            "instance": "GOFNB STAG API"
+        },"targets": ["192.168.102.113:9182"]
     },
     {
         "labels": {
             "instance": "GOFNB PROD APP"
-        },"targets": ["192.168.102.73:9182"]
+        },"targets": ["192.168.102.246:9182"]
     },
     {
         "labels": {
-            "instance": "GOFNB PROD DB"
-        },"targets": ["192.168.102.248:9182"]
+            "instance": "GOFNB PROD API"
+        },"targets": ["192.168.102.120:9182"]
     },
     {
         "labels": {
